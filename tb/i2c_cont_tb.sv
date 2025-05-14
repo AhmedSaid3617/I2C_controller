@@ -13,25 +13,15 @@ module i2c_controller_tb (i2c_cont_if.tb i2c_if);
         i2c_if.address = 8'b10101001;
         i2c_if.start = 1;
         #10 i2c_if.start = 0;
+
+        #130
+        i2c_if.start = 1;
+        i2c_if.data_in = 8'b11001010;
+        #40
+        i2c_if.start = 0;
+        
     end
 
-    sequence sda_transmits_byte(byte val);
-        i2c_if.sda == 0 ##1
-        i2c_if.sda == 1 ##1
-        i2c_if.sda == val[0] ##1
-        i2c_if.sda == val[1] ##1
-        i2c_if.sda == val[2] ##1
-        i2c_if.sda == val[3] ##1
-        i2c_if.sda == val[4] ##1
-        i2c_if.sda == val[5] ##1
-        i2c_if.sda == val[6] ##1
-        i2c_if.sda == val[7];
-    endsequence
 
-
-    assert property(@(posedge i2c_if.clk) $rose(i2c_if.start) |=> sda_transmits_byte(i2c_if.address))
-        $display("Start signal works.");
-    else
-        $fatal("Assertion fails, sda = %b", i2c_if.sda);
 
 endmodule

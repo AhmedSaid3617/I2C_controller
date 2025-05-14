@@ -1,5 +1,6 @@
 work
 *.mti
 *.mpf
+*.mpf_new
 *.wlf
 .vsocde
